@@ -2,9 +2,87 @@
 
 {% block content %}
     {% load static %}
+    <style>
+        .f1{
+            margin: auto;
+            padding: 10px;
+        }
+    #r1{
+        text-align: center;
+        color: red;
+        font-size: 50px;
 
-    {{ form }}
+
+    }
+    </style>
+
+{#    <form method="POST" action="{% url 'user_registration' %}">#}
+{#        {% csrf_token %}#}
+
+{#        <table align="center" border="0">#}
+{#        <div id="r1">#}
+{#          Registration Page#}
+{#       </div>#}
+{#        <br><br>#}
+{##}
+{#            {% for x in form %}#}
+{#            <tr>#}
+{#                <th class="f1">#}
+{#                    {{ x.label }}#}
+{#                </th>#}
+{#                 <th class="f1">#}
+{#                    {{ x }}#}
+{#                </th>#}
+{#            </tr>#}
+{#            {% endfor %}#}
+{#        <tr>#}
+{#            <th colspan="2" style="text-align: center; width: 30px">#}
+{#                 <button type="submit" class="save btn btn-success">Save</button>#}
+{#            </th>#}
+{#        </tr>#}
+{#        </table>#}
+{##}
+{#    </form>#}
+{#{% endblock %}#}
 
 
 
+<form method="POST" action="{% url 'user_registration' %}">
+        {% csrf_token %}
+
+    <table align="center" border="0">
+
+     <div id="r1">
+          Registration Page
+     </div>
+        <br><br>
+    <tr>
+         <th class="f1">{{ form.name.label }}</th>
+         <th class="f1">{{ form.name }} </th>
+    </tr>
+     <tr>
+         <th class="f1">{{ form.contact.label }} </th>
+         <th class="f1">{{ form.contact }} </th>
+    </tr>
+     <tr>
+         <th class="f1">{{ form.email.label }} </th>
+         <th class="f1">{{ form.email }} </th>
+    </tr>
+     <tr>
+         <th class="f1">{{ form.password.label }} </th>
+         <th class="f1">{{ form.password }} </th>
+    </tr>
+
+       <tr>
+         <th>
+             <input type="hidden" name="otp" required="" id="id_otp" value="0">
+         </th>
+       </tr>
+     <tr>
+            <th colspan="2" style="text-align: center; width: 30px">
+                 <button type="submit" class="save btn btn-success">Save</button>
+            </th>
+        </tr>
+   </table>
+</form>
 {% endblock %}

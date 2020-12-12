@@ -7,8 +7,12 @@ def showIndex(request):
 
 
 def Registration(request):
-    rf = RegistrationForm()
+    rf = RegistrationForm(request.POST)
     if request.method == "POST":
-        pass
+        if rf.is_valid():
+            rf.save()
+        else:
+            return render(request, "process/registration.html", {"form": rf})
+
     else:
       return render(request,"process/registration.html",{"form":rf})
