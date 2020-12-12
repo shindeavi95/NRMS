@@ -11,8 +11,16 @@ def Registration(request):
     if request.method == "POST":
         if rf.is_valid():
             rf.save()
+            # return redirect('user_otp')
         else:
             return render(request, "process/registration.html", {"form": rf})
 
     else:
-      return render(request,"process/registration.html",{"form":rf})
+          return render(request,"process/registration.html",{"form":rf})
+
+#
+# def User_OTP(request):
+#     return render(request,"process/")
+
+def user_OTP(request):
+    return render(request,"")
