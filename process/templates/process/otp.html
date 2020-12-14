@@ -2,10 +2,40 @@
 
 {% block content %}
     {% load static %}
+    <form method="post" action="{% url 'validate_otp' %}">
+    {% csrf_token %}
+    <table border="5" align="center">
+       <tr>
+           <th>OTP Page</th>
+       </tr>
+        <tr>
+           <th>
+               <input type="number" placeholder="Contact No" required name="t1">
+           </th>
+        </tr>
 
-    <h1>
-    Please Enter Your OTP
-    </h1>
+        <tr>
+           <th>
+               <input type="number" placeholder="OTP" required name="t2">
+           </th>
+        </tr>
+        <tr>
+           <th>
+               <button type="submit" class="btn btn-secondary">Submit</button>
+           </th>
+        </tr>
+    </table>
+    </form>
+    {% if message %}
 
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" align="center">
+          <strong>{{ message }}</strong>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+    {% endif %}
 
 {% endblock %}
