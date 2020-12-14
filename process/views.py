@@ -56,4 +56,18 @@ def conformation(request):
 
 
 def login(request):
-    return render(request,"process/login.html")
+    return render(request, "process/login.html")
+
+
+def login_check(request):
+    try:
+        result = RegistrationModel.objects.get(email=request.POST.get("u1"), password=request.POST.get("u2"))
+        request.session["contact"] = result.contact
+        request.session["name"] = result.name
+
+    except RegistrationModel.DoesNotExist:
+        return None
+
+
+def view_profile(request):
+    return render(request, "process/view_profile.html")
