@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from process.forms import RegistrationForm
-from process.models import RegistrationModel
+from process.models import RegistrationModel,ProfileModel
 from django.contrib.messages import success
 
 
@@ -62,12 +62,36 @@ def login(request):
 def login_check(request):
     try:
         result = RegistrationModel.objects.get(email=request.POST.get("u1"), password=request.POST.get("u2"))
-        request.session["contact"] = result.contact
-        request.session["name"] = result.name
+        if result.status == "pending":
+            return render(request, "process/login.html", {"error": "Sorry Your Account is not Approved yet"})
+        elif result.status == "closed":
+            return render(request, "process/login.html", {"error": "Sorry Your Account is Closed"})
+        else:
+            request.session["contact"] = result.contact
+            request.session["name"] = result.name
+            request.session["rno"] = result.rno
+            return redirect('view_profile')
 
     except RegistrationModel.DoesNotExist:
-        return None
+        return render(request, 'process/login.html', {"error":"Invalid Username Or Password"})
 
 
 def view_profile(request):
-    return render(request, "process/view_profile.html")
+    rno = request.session["rno"]
+    try:
+        result = ProfileModel.objects.get(person__rno=rno)
+        status = True
+    except ProfileModel.DoesNotExist:
+        status = False
+
+    return render(request, "process/view_profile.html",{"status":status})
+
+
+def logout(request):
+    try:
+        del request.session["contact"]
+        del request.session["name"]
+        del request.session["rno"]
+        return redirect("main_page")
+    except KeyError:
+        return render(request, "process/login.html",{"error":"Please Do Login First"})

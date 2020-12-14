@@ -45,9 +45,16 @@
 {#    </form>#}
 {#{% endblock %}#}
 
+{% if request.session.contact %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert" align="center">
+                  <strong>Your are Already member</strong>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
 
-
-<form method="POST" action="{% url 'user_registration' %}">
+{% else %}
+    <form method="POST" action="{% url 'user_registration' %}">
     {% csrf_token %}
 
     <table align="center" border="0">
@@ -85,4 +92,5 @@
         </tr>
    </table>
 </form>
+{% endif %}
 {% endblock %}

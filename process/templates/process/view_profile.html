@@ -2,8 +2,19 @@
 
 {% block content %}
     {% load static %}
+    {% if request.session.contact %}
+       <h1 align="center">Welcome to Profile Page</h1>
+        <h2 align="center">Mr/Miss : {{ request.session.name }}</h2>
+        <h3 align="center">Registration Id : {{ request.session.rno }}</h3>
+        {% if status %}
+            Show Details
+        {% else %}
+            <button type="submit" style="text-align: center">Update Profile</button>
+        {% endif %}
 
-    <h1 align="center">Welcome to Profile Page</h1>
-
+    {% else %}
+        <h1 align="center" style="color: red">Please Do Login First</h1>
+        <h2 align="center" style="color: red">Without Login You can not access this page</h2>
+    {% endif %}
 
 {% endblock %}
