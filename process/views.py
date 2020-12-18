@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from process.forms import RegistrationForm
-from process.models import RegistrationModel,ProfileModel
+from process.models import RegistrationModel,ProfileModel,IndustriesModel
 from django.contrib.messages import success
 
 
@@ -79,13 +79,12 @@ def login_check(request):
 def view_profile(request):
     rno = request.session["rno"]
     try:
-        result = ProfileModel.objects.get(person__rno=rno)
+        r_no = ProfileModel.objects.get(person__rno=rno)
         status = True
     except ProfileModel.DoesNotExist:
         status = False
-
-    return render(request, "process/view_profile.html",{"status":status})
-
+    return render(request, "process/view_profile.html",{"status":status, 'r_no': r_no})
+    
 
 def logout(request):
     try:
@@ -95,3 +94,39 @@ def logout(request):
         return redirect("main_page")
     except KeyError:
         return render(request, "process/login.html",{"error":"Please Do Login First"})
+
+
+def update_profile(request):
+    # try:
+    #     result = IndustriesModel.objects.getList("ino")
+    #     status = True
+    # except IndustriesModel.DoesNotExist:
+    #     status = False
+    # return render(request, "process/update_profile.html",{"status":status})
+    # result = ProfileModel.objects.get(itype__ino=ino)
+
+    # result = IndustriesModel.objects.all(ino=no)
+    result = IndustriesModel.objects.all().order_by('-ino')[:50]
+    return render(request, "process/update_profile.html", {"data":result})
+
+
+def save_profile(request):
+    # idata = IndustriesModel.objects.all().order_by('-ino')[:50]
+    rno = request.POST.get("t1")
+    education = request.POST.get("t2")
+    photo = request.FILES.get("t3")
+    resume = request.FILES.get("t4")
+    # email = request.POST.get("t5")
+    # contact = request.POST.get("t6")
+    industry_id = request.POST.get("t5")   # we are getting here , Aggri
+    # industry = IndustriesModel.objects.get(ino=industry_id)
+    print(industry_id)
+    result = ProfileModel(person_id=rno, education=education, photo=photo, resume=resume, itype_id=industry_id)
+    result.save()
+    # obj = IndustriesModel.objects.create(itype=type)
+    # obj.save()
+    # iresult = IndustriesModel(itype=itype)
+    # iresult.save()
+    return redirect("view_profile")
+
+

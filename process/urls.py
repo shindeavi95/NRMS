@@ -1,5 +1,7 @@
+from django.conf.urls.static import static
 from django.urls import path
 
+from RMS import settings
 from process import views
 
 urlpatterns = [
@@ -12,5 +14,10 @@ urlpatterns = [
     path('login/', views.login, name="login"),
     path('login_check/', views.login_check, name="login_check"),
     path('view_profile/', views.view_profile, name="view_profile"),
-    path('logout/',views.logout, name= "logout")
-]
+    path('logout/',views.logout, name= "logout"),
+    path('update_profile/', views.update_profile, name="update_profile"),
+    path('save_profile/', views.save_profile, name= "save_profile"),
+    ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

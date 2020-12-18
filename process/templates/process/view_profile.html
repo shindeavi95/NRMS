@@ -3,13 +3,78 @@
 {% block content %}
     {% load static %}
     {% if request.session.contact %}
-       <h1 align="center">Welcome to Profile Page</h1>
-        <h2 align="center">Mr/Miss : {{ request.session.name }}</h2>
-        <h3 align="center">Registration Id : {{ request.session.rno }}</h3>
+       <table align="center" border="2" width="80%">
+        <tr>
+        <th style="text-align: center; font-size: 30px; color: red ; background: deepskyblue" colspan="2">Welcome to Profile Page</th>
+        </tr>
+         <tr>
+            <th style="text-align: center; font-size: 20px; color: white ; background:mediumslateblue">Mr/Miss : {{ request.session.name }}</th>
+            <th style="text-align: center; font-size: 20px; color: white ; background:mediumslateblue">Registration Id : {{ request.session.rno }}</th>
+         </tr>
+        </table>
+
         {% if status %}
-            Show Details
+{#            <table border="2">#}
+{#            <tr><th>{{ r_no.person.name }}</th>#}
+{#            <th>{{ r_no.person.email }}</th>#}
+{#            </tr>#}
+{#            </table>#}
+
+
+            <div class="card mb-3" style="width: 70% ; align-content: center ; margin-left: 15%">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="{{ r_no.photo.url }}" width="360" height="360">
+{#                  <img src="{{ r_no.photo }}" class="card-img" alt="...">#}
+                </div>
+
+{#                  <div class="card text-white bg-info mb-3" style="width:700px; height: 360px">#}
+{#                      <div>Person Name : {{ r_no.person.name }}</div>#}
+{#                      <br>#}
+{#                       <div>Person Email  : {{ r_no.person.email }}</div>#}
+{#                      <br>#}
+{#                      <div>Person Contact No : {{ r_no.person.contact }}</div>#}
+{#                      <br>#}
+{#                      <div>Date Of Joining : {{ r_no.person.doj }}</div>#}
+{#                      <br>#}
+{#                      <div>Person Education : {{ r_no.education }}</div>#}
+{#                      <br>#}
+{#                      <div>Person Industry : {{ r_no.itype }}</div>#}
+{#                      <br>#}
+{#                     </div>#}
+{#              </div>#}
+            </div>
+
+{#            <table class="table table-bordered table-dark">#}
+{#                  <tr>#}
+{#                      <th>Registration No : {{ data.rno }}</th>#}
+{#                      <th>Name: {{ data.person_id }}</th>#}
+{#                      <th>Education: {{ data.education }}</th>#}
+{#                      <th>Industry Type: {{ data.itype_id }}</th>#}
+{#                      <th>Photo: {{ data.photo }}</th>#}
+{#                      <th>Resume: {{ data.resume }}</th>#}
+{#                  </tr>#}
+{#                {% for x in data %}#}
+{#                    {% for x in data.item %}#}
+{#                    <tr>#}
+{#                      <th>{{ data.pno }}</th>#}
+{#                         <th>{{ data.education }}</th>#}
+{#                      <th>{{ data.person_id }}</th>#}
+{#                      <th>{{ data.itype_id }}</th>#}
+{#                      <th>{{ data.photo }}</th>#}
+{#                      <th>{{ data.resume }}</th>#}
+{#                    </tr>#}
+{#                     {% endfor %}#}
+{#                {% endfor %}#}
+            </table>
+
         {% else %}
-            <button type="submit" style="text-align: center">Update Profile</button>
+            <form method="post" action="{% url 'update_profile' %}">
+               {% csrf_token %}
+              <button class="btn btn-success" type="submit"  aria-haspopup="true">
+                Update Profile
+              </button>
+            </form>
         {% endif %}
 
     {% else %}
